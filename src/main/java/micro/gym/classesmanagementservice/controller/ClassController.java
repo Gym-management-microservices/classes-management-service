@@ -19,14 +19,14 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Class> getAllClasses() {
         return classService.getAllClasses();
     }
 
-    @PostMapping
-    public Class programarClase(@RequestBody Class gymClass) {
-        return classService.programClass(gymClass);
+    @PostMapping("/program")
+    public void programarClase(@RequestBody Class gymClass) {
+        classService.programClass(gymClass.getTrainerId(),gymClass);
     }
 }
 
