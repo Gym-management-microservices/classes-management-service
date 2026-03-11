@@ -20,15 +20,15 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
-    @GetMapping("/all")
+    @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'TRAINER')")
     public List<Class> getAllClasses() {
         return classService.getAllClasses();
     }
 
-    @PostMapping("/program")
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER')")
-    public void programarClase(@RequestBody Class gymClass) {
+    public void createClass(@RequestBody Class gymClass) {
         classService.programClass(gymClass.getTrainerId(),gymClass);
     }
 }
