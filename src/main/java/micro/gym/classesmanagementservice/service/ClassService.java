@@ -3,6 +3,7 @@ import java.util.List;
 
 import jakarta.transaction.Transactional;
 import micro.gym.classesmanagementservice.exception.TrainerDoesnotExist;
+import micro.gym.classesmanagementservice.model.ClassId;
 import micro.gym.classesmanagementservice.model.TrainerId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class ClassService {
     private ClassRepository classRepository;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private ProducerOcupationClass createOcupationProducer;
 
     public List<Class> getAllClasses() {
         return classRepository.findAll();
@@ -25,11 +28,17 @@ public class ClassService {
     @Transactional
     public void programClass(TrainerId trainerid, Class gymClass) {
         Boolean entrenadorExiste = restTemplate.getForObject(
-                "http://localhost:8100/trainer/search/" + trainerid.getTrainerId_value(), Boolean.class);
+                "http://localhost:8084/trainer/search/" + trainerid.getTrainerId_value(), Boolean.class);
         if (Boolean.TRUE.equals(entrenadorExiste)) {
             classRepository.save(gymClass);
         } else {
             throw new TrainerDoesnotExist(trainerid);
         }
+    }
+    public void addMemberToClass(ClassId classId) {
+        Class clase = classRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada: " + classId));
+        createOcupationProducer.updateOcupation(clase);
+        classRepository.save(clase);
     }
 }

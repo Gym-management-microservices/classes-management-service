@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import micro.gym.classesmanagementservice.dto.CurrentOcuppationDTO;
 
 @Data
 @Builder
@@ -30,4 +31,7 @@ public class Class {
 
     @Embedded
     private MaxCapacity maxCapacity;
+
+    @Embedded
+    private CurrentOcuppationDTO currentOccupation;
 }
