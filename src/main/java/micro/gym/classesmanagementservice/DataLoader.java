@@ -1,5 +1,6 @@
 package micro.gym.classesmanagementservice;
 
+import micro.gym.classesmanagementservice.dto.CurrentOcuppationDTO;
 import micro.gym.classesmanagementservice.model.*;
 import micro.gym.classesmanagementservice.model.Class;
 import micro.gym.classesmanagementservice.repository.ClassRepository;
@@ -27,6 +28,7 @@ public class DataLoader implements CommandLineRunner {
         clase1.setScheduleEnd(new ScheduleEnd(LocalDate.now().plusDays(1)));
         clase1.setTrainerId(new TrainerId("T1"));
         clase1.setMaxCapacity(new MaxCapacity(20));
+        clase1.setCurrentOccupation(new CurrentOcuppationDTO("1","T1", 0));
         claseRepository.save(clase1);
 
         Class clase2 = new Class();
@@ -36,6 +38,7 @@ public class DataLoader implements CommandLineRunner {
         clase2.setScheduleEnd(new ScheduleEnd(LocalDate.now().plusDays(1)));
         clase2.setTrainerId(new TrainerId("T2"));
         clase2.setMaxCapacity(new MaxCapacity(10));
+        clase1.setCurrentOccupation(new CurrentOcuppationDTO("2","T2", 0));
         claseRepository.save(clase2);
 
         System.out.println("Datos de clase de ejemplo cargados exitosamente.");

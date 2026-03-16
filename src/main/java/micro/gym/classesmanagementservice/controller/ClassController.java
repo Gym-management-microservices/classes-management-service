@@ -2,13 +2,12 @@ package micro.gym.classesmanagementservice.controller;
 
 import java.util.List;
 
+import micro.gym.classesmanagementservice.model.ClassId;
+import micro.gym.classesmanagementservice.service.ProducerOcupationClass;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,6 +26,8 @@ public class ClassController {
  
     @Autowired
     private ClassService classService;
+    @Autowired
+    ProducerOcupationClass  producerOcupationClass;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'TRAINER')")
@@ -58,6 +59,19 @@ public class ClassController {
                 examples = @ExampleObject(value = "{ \"name\": \"Yoga\", \"description\": \"Clase de yoga relajante\", \"trainerId\": \"T001\", \"schedule\": \"Lunes 10:00\", \"capacity\": 20 }")))
         @RequestBody Class gymClass) {
         classService.programClass(gymClass.getTrainerId(),gymClass);
+    }
+    @PostMapping("/{classId}/inscribir")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TRAINER')")
+    @Operation(summary = "Inscribir a a alguien en una clase", description = "Incrementa la ocupación de una clase y notifica al entrenador")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Inscripción exitosa"),
+            @ApiResponse(responseCode = "404", description = "Clase no encontrada"),
+            @ApiResponse(responseCode = "401", description = "No autenticado"),
+            @ApiResponse(responseCode = "403", description = "No tiene permisos")
+    })
+
+    public void AddMemberToClass(@PathVariable ClassId classId) {
+        classService.addMemberToClass(classId);
     }
 }
 
