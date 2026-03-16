@@ -21,6 +21,8 @@ public class ClassService {
     private RestTemplate restTemplate;
     @Autowired
     private ProducerOcupationClass createOcupationProducer;
+    @Autowired
+    private ClassScheduleProducer classScheduleProducer;
 
     public List<Class> getAllClasses() {
         return classRepository.findAll();
@@ -28,9 +30,10 @@ public class ClassService {
     @Transactional
     public void programClass(TrainerId trainerid, Class gymClass) {
         Boolean entrenadorExiste = restTemplate.getForObject(
-                "http://localhost:8084/trainer/search/" + trainerid.getTrainerId_value(), Boolean.class);
+                "http://localhost:8084/trainers/" + trainerid.getTrainerId_value(), Boolean.class);
         if (Boolean.TRUE.equals(entrenadorExiste)) {
             classRepository.save(gymClass);
+            classScheduleProducer.publishScheduleChange(gymClass);
         } else {
             throw new TrainerDoesnotExist(trainerid);
         }
@@ -41,4 +44,5 @@ public class ClassService {
         createOcupationProducer.updateOcupation(clase);
         classRepository.save(clase);
     }
+
 }

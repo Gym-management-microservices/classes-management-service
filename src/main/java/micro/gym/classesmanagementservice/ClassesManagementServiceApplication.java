@@ -11,8 +11,5 @@ public class ClassesManagementServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ClassesManagementServiceApplication.class, args);
 	}
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+
 }
