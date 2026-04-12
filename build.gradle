@@ -46,8 +46,17 @@ dependencies {
 
 	// RabbitMQ
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-}
 
+	//Eureka
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	//Mysql
+	runtimeOnly 'com.mysql:mysql-connector-j:9.6.0'
+}
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2024.0.1"
+	}
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }
