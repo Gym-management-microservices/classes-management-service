@@ -38,7 +38,7 @@ public class DataLoader implements CommandLineRunner {
         clase2.setScheduleEnd(new ScheduleEnd(LocalDate.now().plusDays(1)));
         clase2.setTrainerId(new TrainerId("T2"));
         clase2.setMaxCapacity(new MaxCapacity(10));
-        clase1.setCurrentOccupation(new CurrentOcuppationDTO("2","T2", 0));
+        clase2.setCurrentOccupation(new CurrentOcuppationDTO("2","T2", 0));
         claseRepository.save(clase2);
 
         System.out.println("Datos de clase de ejemplo cargados exitosamente.");
